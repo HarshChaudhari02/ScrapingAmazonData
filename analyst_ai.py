@@ -1,65 +1,9 @@
-# import csv
-# import requests
-# from bs4 import BeautifulSoup
-#
-# # Function to scrape product details from a given URL
-# def scrape_product_details(url):
-#     response = requests.get(url)
-#     soup = BeautifulSoup(response.content, 'html.parser')
-#
-#     # Scrape the required information
-#     product_url = url
-#     product_name = soup.find('span', {'id': 'productTitle'}).text.strip()
-#     product_price = soup.find('span', {'class': 'a-offscreen'}).text.strip()
-#     rating = soup.find('span', {'class': 'a-icon-alt'}).text.strip().split()[0]
-#     reviews = soup.find('span', {'id': 'acrCustomerReviewText'}).text.strip().split()[0]
-#     description = soup.find('div', {'id': 'productDescription'}).text.strip()
-#     asin = soup.find('th', text='ASIN').find_next_sibling('td').text.strip()
-#
-#     # Prepare the data as a dictionary
-#     product_data = {
-#         'Product URL': product_url,
-#         'Product Name': product_name,
-#         'Product Price': product_price,
-#         'Rating': rating,
-#         'Number of Reviews': reviews,
-#         'Description': description,
-#         'ASIN': asin
-#     }
-#
-#     return product_data
-#
-#
-# # Scrape product details from multiple pages
-# base_url = 'https://www.amazon.in/s?k=bags&crid=2M096C61O4MLT&qid=1653308124&sprefix=ba%2Caps%2C283&ref=sr_pg_{}'
-#
-# # Create a CSV file to store the data
-# csv_filename = 'product_data.csv'
-# csv_file = open(csv_filename, 'w', newline='')
-# csv_writer = csv.DictWriter(csv_file, fieldnames=['Product URL', 'Product Name', 'Product Price', 'Rating',
-#                                                  'Number of Reviews', 'Description', 'ASIN'])
-# csv_writer.writeheader()
-#
-# for page in range(1, 21):  # Scrape 20 pages
-#     url = base_url.format(page)
-#     response = requests.get(url)
-#     soup = BeautifulSoup(response.content, 'html.parser')
-#
-#     products = soup.find_all('div', {'data-component-type': 's-search-result'})
-#
-#     for product in products:
-#         product_url = product.find('a', {'class': 'a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal'})['href']
-#         product_data = scrape_product_details(product_url)
-#
-#         # Write the product data to the CSV file
-#         csv_writer.writerow(product_data)
-#
-# csv_file.close()
-
+#Importing Libraries
 import csv
 import requests
 from bs4 import BeautifulSoup
 
+#Function to scrap the data of each product
 def scrap_product_details(url):
 	response = requests.get(url, headers=headers)
 	soup = BeautifulSoup(response.content, 'html.parser')
@@ -124,7 +68,7 @@ csv_writer = csv.DictWriter(csv_file, fieldnames=['Product URL', 'Product Name',
                                                  'Number of Reviews', 'Description', 'ASIN', 'Manufacturer'])
 csv_writer.writeheader()
 
-
+#Getting the first 20 pages
 for page in range(1,21):
 	url = base_url.format(page)
 	print(url)
